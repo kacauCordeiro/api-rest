@@ -10,10 +10,9 @@ class PartidasModel(Model):
     _suffix = "pt"
     _pk = "id_partida_pt"
 
-    ds_time_tm: Union[str, None] = None
-    ds_localidade_tm: Union[str, None]
-    classificacao_time_tm: Union[str, None] = None
-
+    ds_partida_pt: Union[str, None] = None
+    estadio_pt: Union[str, None]
+    
     def create_table(self):
         """Create table if not exists function."""
         query = """ CREATE TABLE IF NOT EXISTS PARTIDAS (

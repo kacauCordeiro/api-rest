@@ -37,3 +37,4 @@ USE mybd;
                     NM_TORNEIO_TO
                 PRIMARY KEY(ID_TORNEIO_TO)
                 );
+
