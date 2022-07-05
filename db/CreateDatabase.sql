@@ -1,0 +1,39 @@
+USE mybd;
+
+ CREATE TABLE IF NOT EXISTS TIME (
+                    ID_TIME_TM INT(8) NOT NULL AUTO_INCREMENT,
+                    DS_TIME_TM VARCHAR(100) NOT NULL,
+                    DS_LOCALIDADE_TM VARCHAR(100) NOT NULL,
+                    CLASSIFICACAO_TIME_TM VARCHAR(12) NOT NULL,
+                PRIMARY KEY(ID_TIME_TM)
+                );
+
+            
+ CREATE TABLE IF NOT EXISTS JOGADOR (
+                    ID_JOGADOR_JG INT(8) NOT NULL AUTO_INCREMENT,
+                    NM_JOGADOR_JG VARCHAR(100) NOT NULL UNIQUE,
+                    DT_NASCIMENTO_JG datetime NOT NULL,
+                    PS_JOGADOR_JG VARCHAR(12),
+                    ID_TIME_JG INT(8) NOT NULL,
+                PRIMARY KEY (ID_JOGADOR_JG),
+                FOREIGN KEY (ID_TIME_JG) REFERENCES TIME(ID_TIME_TM)
+                );
+
+
+ CREATE TABLE IF NOT EXISTS TRANSFERENCIA (
+                    ID_TRANSFER_TFR INT(8) NOT NULL AUTO_INCREMENT,
+                    ID_JOGADOR_TFR INT(8) NOT NULL,
+                    ID_TIME_ORIGEM_TFR  INT(8) NOT NULL,
+                    ID_TIME_DESTINO_TFR INT(8) NOT NULL,
+                    VL_TRANSFER_TFR VARCHAR(15) NOT NULL,
+                PRIMARY KEY (ID_TRANSFER_TFR),
+                FOREIGN KEY (ID_TIME_ORIGEM_TFR) REFERENCES TIME(ID_TIME_TM),
+                FOREIGN KEY (ID_TIME_DESTINO_TFR) REFERENCES TIME(ID_TIME_TM),
+                FOREIGN KEY (ID_JOGADOR_TFR) REFERENCES JOGADOR(ID_JOGADOR_JG)
+                );
+
+ CREATE TABLE IF NOT EXISTS TORNEIO (
+                    ID_TORNEIO_TO INT(8) NOT NULL AUTO_INCREMENT,
+                    NM_TORNEIO_TO
+                PRIMARY KEY(ID_TORNEIO_TO)
+                );
