@@ -1,5 +1,5 @@
-import json
-from typing import Any, Dict, Tuple
+import datetime
+from typing import Any, Dict
 
 from app.databases.mysql import MySQLConnection
 from app.models.transferencia_model import TransferenciatoModel
@@ -26,6 +26,7 @@ class TransferenciaController:
         transferencia_model.id_time_origem_tfr = int(request.get("id_time_origem", 0))
         transferencia_model.id_time_destino_tfr = int(request.get("id_time_destino", 0))
         transferencia_model.vl_transfer_tfr = request.get("vl_transferencia", "")
+        transferencia_model.dt_transfer_tfr = request.get("dt_transferencia", datetime.datetime.now())
 
         id_transferencia = transferencia_model.save()
         

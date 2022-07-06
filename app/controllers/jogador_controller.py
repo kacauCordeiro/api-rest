@@ -5,7 +5,7 @@ from app.models.jogador_model import JogadorModel
 
 
 class JogadorController:
-    """Class controller player."""
+    """Classe controller para jogadores."""
 
     def __init__(self, database: MySQLConnection):
         """Inicialização da classe.
@@ -16,7 +16,7 @@ class JogadorController:
         self.database = database
 
     def insert_jogador(self, request: Dict[str, Any]):
-        """Função para isert de um novo player."""
+        """Função de inserção para um novo jogador."""
 
         jogador_model = JogadorModel(self.database)
         jogador_model.create_table()

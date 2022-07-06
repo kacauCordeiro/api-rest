@@ -18,9 +18,9 @@ class TimeModel(Model):
         """Create table if not exists function."""
         query = """ CREATE TABLE IF NOT EXISTS TIME (
                     ID_TIME_TM INT(8) NOT NULL AUTO_INCREMENT,
-                    DS_TIME_TM VARCHAR(100) NOT NULL,
+                    DS_TIME_TM VARCHAR(100) NOT NULL UNIQUE,
                     DS_LOCALIDADE_TM VARCHAR(100) NOT NULL,
-                    CLASSIFICACAO_TIME_TM VARCHAR(12) NOT NULL,
+                    CLASSIFICACAO_TIME_TM VARCHAR(4) NOT NULL,
                 PRIMARY KEY(ID_TIME_TM)
                 );"""
         self.query_raw(query)

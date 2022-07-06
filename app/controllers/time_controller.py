@@ -29,3 +29,4 @@ class TimeController:
         id_time = time_model.save()
         self.database.commit()
         return id_time
+

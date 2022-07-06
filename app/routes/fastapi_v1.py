@@ -105,3 +105,12 @@ async def jogador_by_name(name: str = None):
     with MySQLConnection() as database:
         return JogadorController(database).list_jogadores(name)
 
+#UPDATE
+
+#EVENTOS
+@api_router_v1.get("/torneio/partida/{id}/inicio")
+async def partida_inicio(id: int = 0):
+    """Enpoint que cria o evento de inicio da partida."""
+    with MySQLConnection() as database:
+        return EventosController(database).evento_inicio(id)
+
