@@ -16,7 +16,7 @@ class TorneioModel(Model):
         """Create table if not exists function."""
         query = """ CREATE TABLE IF NOT EXISTS TORNEIO (
                     ID_TORNEIO_TO INT(8) NOT NULL AUTO_INCREMENT,
-                    NM_TORNEIO_TO
-                PRIMARY KEY(ID_TORNEIO_TO)
+                    NM_TORNEIO_TO VARCHAR(100) NOT NULL UNIQUE,
+                PRIMARY KEY (ID_TORNEIO_TO)
                 );"""
         self.query_raw(query)

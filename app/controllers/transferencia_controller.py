@@ -3,6 +3,7 @@ from typing import Any, Dict
 
 from app.databases.mysql import MySQLConnection
 from app.models.transferencia_model import TransferenciatoModel
+from app.models.jogador_model import JogadorModel
 
 
 class TransferenciaController:
@@ -26,9 +27,14 @@ class TransferenciaController:
         transferencia_model.id_time_origem_tfr = int(request.get("id_time_origem", 0))
         transferencia_model.id_time_destino_tfr = int(request.get("id_time_destino", 0))
         transferencia_model.vl_transfer_tfr = request.get("vl_transferencia", "")
-        transferencia_model.dt_transfer_tfr = request.get("dt_transferencia", datetime.datetime.now())
+        transferencia_model.dt_transfer_tfr = request.get("data", str(datetime.datetime.now()))
 
         id_transferencia = transferencia_model.save()
+        
+        if id_transferencia:
+            jogador_model = JogadorModel(self.database)
+            jogador_model.id_jogador_jg = int(request.get("id_jogador", 0))
+            jogador_model.id_time_jg = int(request.get("id_time_destino", 0))
         
         self.database.commit()
 

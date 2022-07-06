@@ -24,7 +24,7 @@ class TransferenciatoModel(Model):
                     ID_TIME_ORIGEM_TFR  INT(8) NOT NULL,
                     ID_TIME_DESTINO_TFR INT(8) NOT NULL,
                     VL_TRANSFER_TFR VARCHAR(15) NOT NULL,
-                    DT_TRANFER_TFR datetime,
+                    DT_TRANSFER_TFR datetime,
                 PRIMARY KEY (ID_TRANSFER_TFR),
                 FOREIGN KEY (ID_TIME_ORIGEM_TFR) REFERENCES TIME(ID_TIME_TM),
                 FOREIGN KEY (ID_TIME_DESTINO_TFR) REFERENCES TIME(ID_TIME_TM),

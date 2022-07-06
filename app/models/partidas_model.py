@@ -22,7 +22,7 @@ class PartidasModel(Model):
                     TIME_PT INT(8) NOT NULL,
                     TIME_RIVAL_PT INT(8) NOT NULL,
                     ID_TORNEIO_PT INT(8) NOT NULL,
-                PRIMARY KEY(ID_PARTIDA_PT),
+                PRIMARY KEY (ID_PARTIDA_PT),
                 FOREIGN KEY (TIME_PT) REFERENCES TIME(ID_TIME_TM),
                 FOREIGN KEY (TIME_RIVAL_PT) REFERENCES TIME(ID_TIME_TM),
                 FOREIGN KEY (ID_TORNEIO_PT) REFERENCES TORNEIO(ID_TORNEIO_TO)
