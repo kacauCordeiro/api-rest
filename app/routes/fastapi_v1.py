@@ -6,6 +6,7 @@ from app.controllers.jogador_controller import JogadorController
 from app.controllers.transferencia_controller import TransferenciaController
 from app.controllers.torneio_controller import TorneioController
 from app.controllers.partidas_controller import PartidasController
+from app.controllers.eventos_controller import EventosController
 from app.databases.mysql import MySQLConnection
 
 api_router_v1 = APIRouter()
@@ -118,9 +119,8 @@ async def partida(id: int = 0):
 #UPDATE
 
 #EVENTOS
-@api_router_v1.get("/torneio/partida/{id}/inicio")
+@api_router_v1.get("/partida/inicio/")
 async def partida_inicio(id: int = 0):
     """Enpoint que cria o evento de inicio da partida."""
     with MySQLConnection() as database:
         return EventosController(database).evento_inicio(id)
-

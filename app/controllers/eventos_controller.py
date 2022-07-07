@@ -1,11 +1,9 @@
 from typing import Any, Dict
 
 from app.databases.mysql import MySQLConnection
-from app.models.jogador_model import JogadorModel
-
 
 class EventosController:
-    """Class controller player."""
+    """Classe controller para eventos."""
 
     def __init__(self, database: MySQLConnection):
         """Inicialização da classe.
@@ -16,5 +14,5 @@ class EventosController:
         self.database = database
 
     def evento_inicio(self, id):
-        """Função para isert de um novo player."""
+        """Função para insert de um evento de inicio."""
         return None
