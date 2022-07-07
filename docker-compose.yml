@@ -12,13 +12,11 @@ services:
       - /etc/localtime:/etc/localtime
     links: 
       - db
+      - rabbitmq
 
   db:
     container_name: db-dev
     image: mysql:5.7
-    # build:
-    #   context: ./mysql_dump/
-    #   dockerfile: Dockerfile
     restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=mypass
@@ -26,6 +24,16 @@ services:
     volumes:
       - db-data:/var/lib/mysql
       - ./mysql_dump:/docker-entrypoint-initdb.d/
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: rabbitmq
+    container_name: rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    volumes:
+     - $PWD/storage/rabbitmq:/var/lib/rabbitmq
 
   adminer:
     image: adminer
@@ -37,3 +45,7 @@ services:
 volumes:
   db-data:
     driver: local
+
+networks:
+  rabbitmq_go_net:
+    driver: bridge

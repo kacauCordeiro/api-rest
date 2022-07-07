@@ -33,9 +33,8 @@ class JogadorController:
         self.database.commit()
         return id_jogador
     
-    def list_jogadores(self, args=None):
+    def lista_de_jogadores(self, id=0, nome=None):
         """Function insert player."""
-
         jogador_model = JogadorModel(self.database)
-        todos = jogador_model.list_jogadores(args)
+        todos = jogador_model.consulta_jogadores(id, nome)
         return todos

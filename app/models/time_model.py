@@ -24,3 +24,17 @@ class TimeModel(Model):
                 PRIMARY KEY(ID_TIME_TM)
                 );"""
         self.query_raw(query)
+        
+    def consulta_times(self, id=0, nome=None):
+        """Lista todos os times de acordo com o filtro."""
+        include_where = ''
+        if nome:
+            include_where = f" WHERE DS_TIME_TM LIKE '%{nome}%'"
+        if id:
+            include_where = f" WHERE ID_TIME_TM = {id}"
+
+        query = f""" SELECT * FROM TIME {include_where}"""
+        
+        result = self.query_raw(query)
+        
+        return result.fetchall()

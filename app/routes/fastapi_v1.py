@@ -48,13 +48,46 @@ async def partida(request: Request):
     with MySQLConnection() as database:
         body = await request.json()
         return PartidasController(database).insert_partida(body)
+# -------------------------------------------------------------------------------------------------------------------------------   
+
+# GET
+@api_router_v1.get("/times/")
+async def get_times(id: int = 0, nome: str = None):
+    """Enpoint para listar todos os times com e sem filtro."""
+    with MySQLConnection() as database:
+        return TimeController(database).lista_de_times(id=id, nome=nome)
     
+@api_router_v1.get("/jogadores/")
+async def get_jogadores(id: int = 0, nome: str = None):
+    """"Enpoint para listar todos os jogadores com e sem filtro."""
+    with MySQLConnection() as database:
+        return JogadorController(database).lista_de_jogadores(id=id, nome=nome)
+    
+@api_router_v1.get("/torneios/")
+async def get_torneios(name: str = None):
+    """"Enpoint para listar todos os torneios com e sem filtro."""
+    with MySQLConnection() as database:
+        return TorneioController(database).lista_de_torneios(name)
+    
+@api_router_v1.get("/partidas/")
+async def get_partidas(id_time: int = 0):
+    """"Enpoint para listar todas as partidas com e sem filtro."""
+    with MySQLConnection() as database:
+        return PartidasController(database).lista_de_partidas(id_time)
+    
+@api_router_v1.get("/transferencias/")
+async def get_transferencias(id_jogador: int = 0):
+    """Enpoint para listar o historico de transferencias com e sem filtro."""
+    with MySQLConnection() as database:
+        return TransferenciaController(database).historico_de_transferencias(id_jogador)
+
+
 # DELETE
 @api_router_v1.delete("/time/{id}")
 async def time(id: int = 0):
     """Enpoint para cadastrar time."""
     with MySQLConnection() as database:
-        return TimeController(database).delete_time(id)
+        return TimeController(database).delete()
 
 @api_router_v1.delete("/jogador/{id}")
 async def jogador(id: int = 0):
@@ -80,30 +113,7 @@ async def partida(id: int = 0):
     with MySQLConnection() as database:
         return PartidasController(database).delete_partida(id)
 
-# GET
-@api_router_v1.get("/times/{id}")
-async def jogador_by_id(id: int = 0):
-    """Enpoint para listar todos os jogadores."""
-    with MySQLConnection() as database:
-        return JogadorController(database).list_times(id)
-    
-@api_router_v1.get("/jogadores/{id}")
-async def jogadores(id: int = 0):
-    """Enpoint para listar todos os jogadores."""
-    with MySQLConnection() as database:
-        return JogadorController(database).list_jogadores()
-    
-@api_router_v1.get("/transferencias/{id}")
-async def jogador_by_name(name: str = None):
-    """Enpoint para listar todos os jogadores."""
-    with MySQLConnection() as database:
-        return JogadorController(database).list_jogadores(name)
 
-@api_router_v1.get("/torneios/{id}")
-async def jogador_by_name(name: str = None):
-    """Enpoint para listar todos os jogadores."""
-    with MySQLConnection() as database:
-        return JogadorController(database).list_jogadores(name)
 
 #UPDATE
 

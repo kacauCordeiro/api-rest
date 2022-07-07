@@ -24,6 +24,12 @@ class TorneioController:
 
         torneio_model.nm_torneio_to = request.get("descricao_torneio", None)
 
-        id_time = torneio_model.save()
+        id_torneio = torneio_model.save()
         self.database.commit()
-        return id_time
+        return id_torneio
+    
+    def lista_de_torneios(self, id=0, nome=None):
+        """Fução de consulta de torneios."""
+        torneio_model = TorneioModel(self.database)
+        todos = torneio_model.consulta_torneios(id, nome)
+        return todos

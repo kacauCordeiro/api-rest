@@ -17,7 +17,7 @@ class TransferenciaControllerTests(unittest.IsolatedAsyncioTestCase):
                 "id_jogador": 1, 
                 "id_time_origem": 1,
                 "id_time_destino": 8,
-                "data": str(datetime.datetime.now()),
+                "data": "2022-02-01 00:00:00",
                 "vl_transferencia": "50.000"
                 }
             result = transferencia_controller.insert_transferencia(json)

@@ -10,7 +10,7 @@ class TorneioModel(Model):
     _suffix = "to"
     _pk = "id_torneio_to"
 
-    ds_torneio_to: Union[str, None] = None
+    nm_torneio_to: Union[str, None] = None
 
     def create_table(self):
         """Create table if not exists function."""
@@ -20,3 +20,18 @@ class TorneioModel(Model):
                 PRIMARY KEY (ID_TORNEIO_TO)
                 );"""
         self.query_raw(query)
+
+    
+    def consulta_torneios(self, id=0, nome=None):
+        """Lista todos os torneios de acordo com o filtro."""
+        include_where = ''
+        if nome:
+            include_where = f" WHERE NM_TORNEIO_TO LIKE '%{nome}%'"
+        if id:
+            include_where = f" WHERE ID_TORNEIO_TO = {id}"
+
+        query = f""" SELECT * FROM TORNEIO {include_where}"""
+        
+        result = self.query_raw(query)
+        
+        return result.fetchall()
