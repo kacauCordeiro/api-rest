@@ -119,8 +119,9 @@ async def partida(id: int = 0):
 #UPDATE
 
 #EVENTOS
-@api_router_v1.get("/partida/inicio/")
-async def partida_inicio(id: int = 0):
+@api_router_v1.post("/partida/inicio/")
+async def evento_inicio(request: Request, id_partida: int = 0):
     """Enpoint que cria o evento de inicio da partida."""
     with MySQLConnection() as database:
-        return EventosController(database).evento_inicio(id)
+        body = await request.json()
+        return EventosController(database).evento_inicio(body, id_partida)
