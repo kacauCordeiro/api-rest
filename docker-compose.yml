@@ -29,11 +29,14 @@ services:
     image: rabbitmq:3-management
     hostname: rabbitmq
     container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+      # - RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+      - RABBITMQ_DEFAULT_VHOST=/
     ports:
-      - "15672:15672"
-      - "5672:5672"
-    volumes:
-     - $PWD/storage/rabbitmq:/var/lib/rabbitmq
+      - 5672:5672
+      - 15672:15672
 
   adminer:
     image: adminer
@@ -47,5 +50,7 @@ volumes:
     driver: local
 
 networks:
-  rabbitmq_go_net:
-    driver: bridge
+    api-rest:
+      external: true
+
+# docker network create api-rest

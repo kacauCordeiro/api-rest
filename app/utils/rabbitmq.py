@@ -6,20 +6,22 @@ class Rabbitmq:
     
     def __init__(self):
         """Construtor RabbitMQ."""
-        self.__config = {
-            "heartbeat": 600,
-            "host": os.environ.get("RABBIT_HOST", "localhost"),
-            "port": os.environ.get("RABBIT_PORT", "5672"),
-            "credentials": pika.PlainCredentials(
-                os.environ.get("RABBIT_USER", "guest"), os.environ.get("RABBIT_PASSWORD", "guest")
-            )
-        }
+        user = os.environ.get("RABBIT_USER", "guest")
+        password = os.environ.get("RABBIT_PASSWORD", "guest")
+        host = os.environ.get("RABBIT_HOST", "rabbitmq.apirest_default")
+        vhost = os.environ.get("RABBIT_VHOST", "/")
+        port = os.environ.get("RABBIT_PORT", '5672')
 
         self.connection = None      
         try:
-            self.connection = pika.BlockingConnection(pika.ConnectionParameters(**self.__config))
+            credentials = pika.PlainCredentials('guest', 'guest')
+            self.connection = pika.BlockingConnection(
+            pika.ConnectionParameters('rabbitmq.apirest_default',5672,'/',credentials))
+            
             self.channel = self.connection.channel()
-
+            self.channel.queue_declare(queue="eventos")
+            self.channel.exchange_declare(exchange="eventos", exchange_type='fanout')
+            self.channel.queue_bind(exchange="eventos", queue="eventos")
         except Exception as err:  # pylint: disable=broad-except
             print("[RABBIT_CONNECTION_ERROR] Não foi possivel conectar!", err)
 
@@ -29,20 +31,13 @@ class Rabbitmq:
             self.channel.close()
             self.connection.close()
     
-    def publisher(self, queue_name: str, msg: dict, exchange: str = "", priority: int = 1):
+    def publisher(self, queue_name: str, msg: dict, exchange: str = "", priority: int = 1, routing_key: str = ""):
         "Publica uma mensagem na fila."
+        
         try:
+            result = {"msg": "não funcionou"}
             if self.connection:
-                self.channel.queue_declare(queue=queue_name, durable=True, auto_delete=False)
-                self.channel.basic_publish(
-                    exchange=exchange,
-                    routing_key=queue_name,
-                    body=json.dumps(msg),
-                    properties=pika.BasicProperties(delivery_mode=2, priority=priority),
-                )
-                result = True
-
+                self.channel.basic_publish(exchange=exchange,routing_key=routing_key,body=json.dumps(msg))
         except Exception as err:
             print("[RABBIT_PUBLISH_ERROR] Não foi possível enviar mensagem!", err)
-            result = False
-        return result
+        return self.connection

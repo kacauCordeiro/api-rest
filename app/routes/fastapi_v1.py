@@ -1,4 +1,6 @@
-from fastapi import APIRouter, Query, Request
+import asyncio
+from typing import Union
+from fastapi import APIRouter, Query, Request, Depends, Cookie
 from pyparsing import Optional
 
 from app.controllers.time_controller import TimeController
@@ -10,6 +12,16 @@ from app.controllers.eventos_controller import EventosController
 from app.databases.mysql import MySQLConnection
 
 api_router_v1 = APIRouter()
+
+
+class DependencyClass:
+    async def async_dep(self, request: Request):
+        await asyncio.sleep(0)
+        return False
+
+    def sync_dep(self, request: Request):
+        return True
+dependency = DependencyClass()
 
 @api_router_v1.get("/healthcheck")
 async def healthcheck():
@@ -124,4 +136,25 @@ async def evento_inicio(request: Request, id_partida: int = 0):
     """Enpoint que cria o evento de inicio da partida."""
     with MySQLConnection() as database:
         body = await request.json()
-        return EventosController(database).evento_inicio(body, id_partida)
+        eventos = EventosController(database).evento_inicio(body, id_partida)
+        if eventos:
+            return body
+
+
+
+# def query_extractor(q: Union[str, None] = None):
+#     return q
+
+
+# def query_or_cookie_extractor(
+#     q: str = Depends(query_extractor),
+#     last_query: Union[str, None] = Cookie(default=None),
+# ):
+#     if not q:
+#         return last_query
+#     return q
+
+
+# @api_router_v1.post("/items/")
+# async def read_query(query_or_default: str = Depends(query_or_cookie_extractor)):
+#     return {"q_or_cookie": query_or_default}
