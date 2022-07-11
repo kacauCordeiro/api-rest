@@ -8,6 +8,7 @@ from app.controllers.jogador_controller import JogadorController
 from app.controllers.transferencia_controller import TransferenciaController
 from app.controllers.torneio_controller import TorneioController
 from app.controllers.partidas_controller import PartidasController
+from app.models.eventos_model import EventosModel, EnumEventos
 from app.controllers.eventos_controller import EventosController
 from app.databases.mysql import MySQLConnection
 
@@ -136,25 +137,24 @@ async def evento_inicio(request: Request, id_partida: int = 0):
     """Enpoint que cria o evento de inicio da partida."""
     with MySQLConnection() as database:
         body = await request.json()
-        eventos = EventosController(database).evento_inicio(body, id_partida)
+        eventos = EventosController(database).evento_tempo(request=body, id_partida=id_partida, tp_evento=EnumEventos.INICIO)
         if eventos:
             return body
 
+@api_router_v1.post("/partida/fim/")
+async def evento_fim(request: Request, id_partida: int = 0):
+    """Enpoint que cria o evento de inicio da partida."""
+    with MySQLConnection() as database:
+        body = await request.json()
+        eventos = EventosController(database).evento_tempo(request=body, id_partida=id_partida, tp_evento=EnumEventos.FIM)
+        if eventos:
+            return body
 
-
-# def query_extractor(q: Union[str, None] = None):
-#     return q
-
-
-# def query_or_cookie_extractor(
-#     q: str = Depends(query_extractor),
-#     last_query: Union[str, None] = Cookie(default=None),
-# ):
-#     if not q:
-#         return last_query
-#     return q
-
-
-# @api_router_v1.post("/items/")
-# async def read_query(query_or_default: str = Depends(query_or_cookie_extractor)):
-#     return {"q_or_cookie": query_or_default}
+@api_router_v1.post("/partida/prorrogacao/")
+async def evento_fim(request: Request, id_partida: int = 0):
+    """Enpoint que cria o evento de inicio da partida."""
+    with MySQLConnection() as database:
+        body = await request.json()
+        eventos = EventosController(database).evento_tempo(request=body, id_partida=id_partida, tp_evento=EnumEventos.PRORROGACAO)
+        if eventos:
+            return body

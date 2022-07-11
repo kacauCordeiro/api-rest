@@ -17,8 +17,26 @@ class EventosController:
             database (MySQLConnection): instancia do banco de dados.
         """
         self.database = database
+    
+    def publisher_evento(self, evento):
+        rq = Rabbitmq()
+        rq.publisher(queue_name='eventos', msg=evento, exchange="eventos", routing_key="eventos")
 
-    def evento_inicio(self, request: Dict[str, Any], id_partida=0):
+    def evento_tempo(self, request: Dict[str, Any], id_partida=0, tp_evento=""):
+        """Função para insert de um evento que marca o tempo."""
+        if id_partida:
+            eventos_model = EventosModel(self.database)
+            eventos_model.id_partida_ev = id_partida
+            eventos_model.tp_evento_ev = tp_evento
+            eventos_model.ds_evento_ev = request.get("detalhe_evento", "")
+            eventos_model.json_evento_ev = request.get("metadados", {})
+            if not request.get('data_hora'):
+                eventos_model.dt_evento_ev = request.get("metadados", str(now))
+            eventos_model.save()
+            self.publisher_evento(eventos_model)
+            return eventos_model
+        
+    def evento_fim(self, request: Dict[str, Any], id_partida=0):
         """Função para insert de um evento de inicio."""
         if id_partida:
             eventos_model = EventosModel(self.database)
