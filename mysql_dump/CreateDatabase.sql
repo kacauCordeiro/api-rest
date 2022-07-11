@@ -53,6 +53,23 @@ CREATE TABLE IF NOT EXISTS PARTIDAS (
                 FOREIGN KEY (ID_TORNEIO_PT) REFERENCES TORNEIO(ID_TORNEIO_TO)
                 );
 
+CREATE TABLE IF NOT EXISTS EVENTOS (
+                    ID_EVENTO_EV INT(8) NOT NULL AUTO_INCREMENT,
+                    ID_PARTIDA_EV INT(8) NOT NULL,
+                    ID_TIME_EV INT(8) NOT NULL,
+                    ID_JOGADOR_EV  INT(8) NOT NULL,
+                    TP_EVENTO_EV VARCHAR(50) NOT NULL,
+                    JSON_EVENTO_EV JSON,
+                    DS_EVENTO_EV VARCHAR(200) NOT NULL,
+                    DT_EVENTO_EV datetime,
+                    QT_GOL_TIME_EV  INT(8) NOT NULL,
+                    QT_GOL_RIVAL_EV  INT(8) NOT NULL,
+                PRIMARY KEY (ID_EVENTO_EV),
+                FOREIGN KEY (ID_PARTIDA_EV) REFERENCES PARTIDA(ID_PARTIDA_PT),
+                FOREIGN KEY (ID_JOGADOR_EV) REFERENCES JOGADOR(ID_JOGADOR_JG),
+                FOREIGN KEY (ID_TIME_EV) REFERENCES TIME(ID_TIME_TM)
+                );
+
 INSERT IGNORE INTO TIME (DS_TIME_TM,DS_LOCALIDADE_TM, CLASSIFICACAO_TIME_TM) VALUES ('Athletico', 'Curitiba', 'A'),('Azuriz', 'Pato Branco', 'B'),
 ('Cianorte', 'Cianorte', 'B'),('Coritiba', 'Curitiba', 'A'),('FC Cascavel', 'Cascavel', 'B'),('Londrina', 'Londrina', 'B'),('Maringá', 'Maringá', 'B'),
 ('Operário Ferroviário', 'Ponta Grossa', 'B'),('Paraná', 'Curitiba', 'B'),('Rio Branco', 'Paranaguá', 'B'),('São-Joseense', 'São José dos Pinhais', 'B'),

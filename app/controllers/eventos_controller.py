@@ -30,6 +30,8 @@ class EventosController:
             eventos_model.tp_evento_ev = tp_evento
             eventos_model.ds_evento_ev = request.get("detalhe_evento", "")
             eventos_model.json_evento_ev = request.get("metadados", {})
+            eventos_model.qt_gol_time_ev = request.get("gols_time", 0)
+            eventos_model.qt_gol_rival_ev = request.get("gols_rival", 0)
             if not request.get('data_hora'):
                 eventos_model.dt_evento_ev = request.get("metadados", str(now))
             eventos_model.save()
