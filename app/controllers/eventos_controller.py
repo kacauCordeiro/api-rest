@@ -1,11 +1,13 @@
 import datetime
+import json
 from typing import Any, Dict
+from app.utils.logger import Logger
 from app.databases.mysql import MySQLConnection
-from app.models.eventos_model import EventosModel,EnumEventos
+from app.models.eventos_model import EventosModel, EnumEventos
 from app.utils.rabbitmq import Rabbitmq
 
 now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    
+logger = Logger() 
 
 class EventosController:
     """Classe controller para eventos."""
@@ -20,7 +22,7 @@ class EventosController:
     
     def publisher_evento(self, evento):
         rq = Rabbitmq()
-        rq.publisher(queue_name='eventos', msg=evento, exchange="eventos", routing_key="eventos")
+        rq.publisher(queue_name='eventos', msg=json.dumps(evento), exchange="eventos", routing_key="eventos")
 
     def evento_tempo(self, request: Dict[str, Any], id_partida=0, tp_evento=""):
         """Função para insert de um evento que marca o tempo."""
@@ -32,11 +34,18 @@ class EventosController:
             eventos_model.json_evento_ev = request.get("metadados", {})
             eventos_model.qt_gol_time_ev = request.get("gols_time", 0)
             eventos_model.qt_gol_rival_ev = request.get("gols_rival", 0)
-            if not request.get('data_hora'):
-                eventos_model.dt_evento_ev = request.get("metadados", str(now))
-            eventos_model.save()
-            self.publisher_evento(eventos_model)
-            return eventos_model
+            eventos_model.dt_evento_ev = now
+            evento = eventos_model.save()
+            self.database.commit()
+            
+            request["id_evento"] = evento
+            request["id_partida"] = id_partida
+            request["tp_evento"] = tp_evento
+            request["placar"] = f'{eventos_model.qt_gol_time_ev}x{eventos_model.qt_gol_rival_ev}'
+            
+            self.publisher_evento(request)
+            
+            return request
         
     def evento_fim(self, request: Dict[str, Any], id_partida=0):
         """Função para insert de um evento de inicio."""
@@ -45,7 +54,7 @@ class EventosController:
             eventos_model.id_partida_ev = request.get("id_partida", 0)
             eventos_model.tp_evento_ev = EnumEventos.INICIO
             eventos_model.ds_evento_ev = request.get("detalhe_evento", "")
-            eventos_model.id_jogador_evento = request.get("id_jogador", 0)
+            eventos_model.id_jogador_ev = request.get("id_jogador", 0)
             eventos_model.json_evento_ev = request.get("metadados", {})
             if not request.get('data_hora'):
                 eventos_model.dt_evento_ev = request.get("metadados", str(now))
