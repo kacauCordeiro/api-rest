@@ -8,39 +8,12 @@ from app.controllers.jogador_controller import JogadorController
 from app.controllers.transferencia_controller import TransferenciaController
 from app.controllers.torneio_controller import TorneioController
 from app.controllers.partidas_controller import PartidasController
+from app.controllers.validacao_controller import ValidacaoController
 from app.models.eventos_model import EnumEventos
 from app.controllers.eventos_controller import EventosController
 from app.databases.mysql import MySQLConnection
 
 api_router_v1 = APIRouter()
-
-fake_users_db = {
-    "johndoe": {
-        "username": "johndoe",
-        "full_name": "John Doe",
-        "email": "johndoe@example.com",
-        "hashed_password": "fakehashedsecret",
-        "disabled": False,
-    },
-    "alice": {
-        "username": "alice",
-        "full_name": "Alice Wonderson",
-        "email": "alice@example.com",
-        "hashed_password": "fakehashedsecret2",
-        "disabled": True,
-    },
-}
-
-
-# class DependencyClass:
-#     async def async_dep(self, request: Request):
-#         await asyncio.sleep(0)
-#         return False
-
-#     def sync_dep(self, request: Request):
-#         return True
-    
-# dependency = DependencyClass()
 
 @api_router_v1.get("/healthcheck")
 async def healthcheck():
@@ -50,6 +23,7 @@ async def healthcheck():
 async def time(request: Request):
     """Enpoint para cadastrar time."""
     with MySQLConnection() as database:
+        await ValidacaoController(database).valida_payload_time(request)
         body = await request.json()
         return TimeController(database).insert_time(body)
 
@@ -57,6 +31,7 @@ async def time(request: Request):
 async def jogador(request: Request):
     """Enpoint para cadastrar jogador."""
     with MySQLConnection() as database:
+        await ValidacaoController(database).valida_payload_jogador(request)
         body = await request.json()
         return JogadorController(database).insert_jogador(body)
     
@@ -64,6 +39,7 @@ async def jogador(request: Request):
 async def transferencia(request: Request):
     """Enpoint para cadastrar transferencia."""
     with MySQLConnection() as database:
+        await ValidacaoController(database).valida_payload_transferencia(request)
         body = await request.json()
         return TransferenciaController(database).insert_transferencia(body)
     
@@ -71,6 +47,7 @@ async def transferencia(request: Request):
 async def torneio(request: Request):
     """Enpoint para cadastrar torneio."""
     with MySQLConnection() as database:
+        await ValidacaoController(database).valida_payload_torneio(request)
         body = await request.json()
         return TorneioController(database).insert_torneio(body)
     
@@ -78,6 +55,7 @@ async def torneio(request: Request):
 async def partida(request: Request):
     """Enpoint para cadastrar torneio."""
     with MySQLConnection() as database:
+        await ValidacaoController(database).valida_payload_partida(request)
         body = await request.json()
         return PartidasController(database).insert_partida(body)
 # -------------------------------------------------------------------------------------------------------------------------------   
@@ -118,6 +96,7 @@ async def get_transferencias(id_jogador: int = 0):
 async def evento_inicio(request: Request, id_partida: int = 0):
     """Enpoint que cria o evento de inicio da partida."""
     with MySQLConnection() as database:
+        await ValidacaoController(database).valida_payload_partida(request=request, id_partida=id_partida, tp_evento=EnumEventos.INICIO.value)
         body = await request.json()
         eventos = EventosController(database).evento_tempo(request=body, id_partida=id_partida, tp_evento=EnumEventos.INICIO.value)
         if eventos:

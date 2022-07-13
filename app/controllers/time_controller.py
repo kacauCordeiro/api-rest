@@ -29,6 +29,7 @@ class TimeController:
         id_time = time_model.save()
         self.database.commit()
         return id_time
+
     
     def lista_de_times(self, id=0, nome=None):
         """Function insert player."""

@@ -13,6 +13,7 @@ class JogadorModel(Model):
     nm_jogador_jg: Union[str, None] = None
     dt_nascimento_jg: Union[str, None] = None
     ps_jogador_jg: Union[str, None] = None
+    id_time_jg: Union[int, None] = None
 
     def create_table(self):
         """Create table if not exists function."""

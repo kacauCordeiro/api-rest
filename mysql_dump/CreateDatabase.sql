@@ -5,6 +5,7 @@ USE mybd;
                     DS_TIME_TM VARCHAR(100) NOT NULL UNIQUE,
                     DS_LOCALIDADE_TM VARCHAR(100) NOT NULL,
                     CLASSIFICACAO_TIME_TM VARCHAR(12) NOT NULL,
+                    DT_CADASTRO datetime SYSDATE(),
                 PRIMARY KEY(ID_TIME_TM)
                 );
 

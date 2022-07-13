@@ -30,9 +30,11 @@ class PartidasModel(Model):
         self.query_raw(query)
 
     
-    def consulta_partidas(self, id_time=0):
+    def consulta_partidas(self,id_partida=0, id_time=0):
         """Lista todos os jogadores de acordo com o filtro."""
         include_where = ''
+        if id_partida:
+            include_where = f" WHERE ID_PARTIDA_PT = {id_partida} "
         if id_time:
             include_where = f" WHERE ID_TIME_PT = {id_time} OR ID_TIME_RIVAL_PT = {id_time}"
 
