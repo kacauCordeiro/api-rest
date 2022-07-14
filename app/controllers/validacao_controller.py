@@ -15,7 +15,6 @@ from app.utils.logger import Logger
 class ValidacaoController:
     """Classe controller para validacao."""
     
-    
     def __init__(self, database: MySQLConnection) -> None:
         """Inicialização da classe.
 

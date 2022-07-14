@@ -59,7 +59,6 @@ async def partida(request: Request):
         body = await request.json()
         return PartidasController(database).insert_partida(body)
 # -------------------------------------------------------------------------------------------------------------------------------   
-
 # GET
 @api_router_v1.get("/times/")
 async def get_times(id: int = 0, nome: str = None):
