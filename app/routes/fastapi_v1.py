@@ -78,10 +78,10 @@ async def get_jogadores(id: int = 0, nome: str = None):
         return JogadorController(database).lista_de_jogadores(id=id, nome=nome)
     
 @api_router_v1.get("/torneios/")
-async def get_torneios(nome: str = None):
+async def get_torneios(id: int = 0, nome: str = None):
     """"Enpoint para listar torneios com ou sem filtro."""
     with MySQLConnection() as database:
-        return TorneioController(database).lista_de_torneios(nome)
+        return TorneioController(database).lista_de_torneios(id=id, nome=nome)
     
 @api_router_v1.get("/partidas/")
 async def get_partidas(id_time: int = 0):

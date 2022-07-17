@@ -420,7 +420,8 @@
         "/v1/torneios/":{
             "get":{"summary":"Torneios - Consulta torneios com ou sem filtro.","description":"Enpoint para listar os torneios com ou sem filtro.","operationId":"get_torneios_v1_torneios__get",
                 "parameters":[
-                    {"$ref": "#/components/parameters/nome_torneio"}
+                    {"$ref": "#/components/parameters/nome_torneio"},
+                    {"$ref": "#/components/parameters/id_torneio"}
                     ],
                 "responses":{
                     "200":{
@@ -702,6 +703,21 @@
                     }
                 }
             },
+            "id_torneio": {
+                "description": "O id pelo qual deseja realizar a consulta.",
+                "name": "id",
+                "in": "query",
+                "required": false,
+                "allowEmptyValue": true,
+                "schema": {
+                    "type": "integer"
+                },
+                "examples": {
+                    "id": {
+                    "value": 1
+                    }
+                }
+            },
             "id_partida": {
                 "description": "O id da partida ao qual pertence o evento.",
                 "name": "id_partida",
@@ -764,7 +780,7 @@
             },
             "id_jogador_transferencia": {
                 "description": "O id pelo qual deseja realizar a consulta.",
-                "name": "id_time",
+                "name": "id_jogador",
                 "in": "query",
                 "required": false,
                 "allowEmptyValue": true,
