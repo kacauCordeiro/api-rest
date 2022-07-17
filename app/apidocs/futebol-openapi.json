@@ -1,0 +1,916 @@
+{
+    "openapi":"3.0.2",
+    "info":{"title":"APIREST-FUTEBOL","version":"2.5.0"},
+    "servers": [{"url": "http://localhost:8000/","description": "Aplicação em localhost."}],
+    "paths":{
+        "/v1/":{
+            "get":{"summary":" Index","description":"Exibe Api.","operationId":"_index__get",
+                "responses":{
+                    "200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}}}}
+        },
+        "/v1/healthcheck":{
+            "get":{"summary":"Healthcheck - Testa a saúde da aplicação.","description":"Enpoint para listar todos os times com e sem filtro.","operationId":"healthcheck_v1_healthcheck_get",
+                "responses":{
+                    "200":{"description":"Successful Response"},
+                    "404":{"description":"Not Found"},
+                    "500":{"description":"Server Error"}
+                }
+            }
+        },
+        "/v1/time":{
+            "post":{"summary":"Time - Enpoint para cadastrar um novo time.","description":"Enpoint para cadastrar um novo time.","operationId":"time_v1_time_post",
+                "requestBody":{
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/PayloadTime"
+                            },
+                            "examples": {
+                                "post_time": {
+                                    "summary": "Payload Post Time",
+                                    "value": {
+                                    "nome_do_time": "Seleção Brasileira Copa 2022", 
+                                    "classificacao": "A",
+                                    "localidade": "Qatar"
+                                    }
+                                }
+                                }
+                            }
+                            }
+                        },
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{"application/json":{
+                            "schema":{
+                                "type": "object",
+                                "$ref":"#/components/schemas/Successful"
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Bad Request",
+                        "content":{"application/json":{
+                            "schema":{
+                                "type": "object",
+                                "$ref":"#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "404":{
+                        "description":"Not Found",
+                        "content":{"application/json":{
+                            "schema":{
+                                "type": "object",
+                                "$ref":"#/components/schemas/NotFound"
+                            }
+                        }
+                    }
+                    },
+                    "500":{
+                        "description":"Server Error",
+                        "content":{"application/json":{
+                            "schema":{
+                                "type": "object",
+                                "$ref":"#/components/schemas/ServerError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/jogador":{
+            "post":{"summary":"Jogador - Enpoint para cadastrar um novo jogador","description":"Enpoint para cadastrar um novo jogador.","operationId":"jogador_v1_jogador_post",
+            "requestBody":{
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/components/schemas/PayloadJogador"
+                        },
+                        "examples": {
+                            "post_time": {
+                              "summary": "Payload Post Jogador",
+                              "value": {
+                                "nome_jogador": "Coutinho2", 
+                                "data_nascimento": "1997-08-02 00:00:00",
+                                "posicao": "atacante",
+                                "id_time": 43
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+            "responses":{
+                "200":{
+                    "description":"Successful Response",
+                    "content":{"application/json":{
+                        "schema":{
+                            "type": "object",
+                            "$ref":"#/components/schemas/Successful"
+                            }
+                        }
+                    }
+                },
+                "400":{
+                    "description":"Bad Request",
+                    "content":{"application/json":{
+                        "schema":{
+                            "type": "object",
+                            "$ref":"#/components/schemas/HTTPValidationError"
+                            }
+                        }
+                    }
+                },
+                "404":{
+                    "description":"Not Found",
+                    "content":{"application/json":{
+                        "schema":{
+                            "type": "object",
+                            "$ref":"#/components/schemas/NotFound"
+                        }
+                    }
+                }
+                },
+                "500":{
+                    "description":"Server Error",
+                    "content":{"application/json":{
+                        "schema":{
+                            "type": "object",
+                            "$ref":"#/components/schemas/ServerError"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        },
+        "/v1/transferencia":{
+            "post":{"summary":"Transferencia - Enpoint para realizar uma transferencia de jogador entre times.","description":"Enpoint para cadastrar transferencia.","operationId":"transferencia_v1_transferencia_post",
+                "requestBody":{
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/PayloadTransferencia"
+                            },
+                            "examples": {
+                                "post_time": {
+                                    "summary": "Payload Post Jogador",
+                                    "value": {
+                                    "id_jogador": 145, 
+                                    "id_time_origem": 1,
+                                    "id_time_destino": 13,
+                                    "vl_transferencia": "50 MI",
+                                    "data": "2022-06-01 00:00:00"
+                                    }
+                                }
+                                }
+                            }
+                            }
+                        },
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{"application/json":{
+                            "schema":{
+                                "type": "object",
+                                "$ref":"#/components/schemas/Successful"
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Bad Request",
+                        "content":{"application/json":{
+                            "schema":{
+                                "type": "object",
+                                "$ref":"#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "404":{
+                        "description":"Not Found",
+                        "content":{"application/json":{
+                            "schema":{
+                                "type": "object",
+                                "$ref":"#/components/schemas/NotFound"
+                            }
+                        }
+                    }
+                    },
+                    "500":{
+                        "description":"Server Error",
+                        "content":{"application/json":{
+                            "schema":{
+                                "type": "object",
+                                "$ref":"#/components/schemas/ServerError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/torneio":{
+            "post":{"summary":"Torneio - Endpoint para cadastrar um novo torneio.","description":"Enpoint para cadastrar um novo torneio.","operationId":"torneio_v1_torneio_post",
+                "requestBody":{
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/PayloadTorneio"
+                            },
+                            "examples": {
+                                "post_time": {
+                                "summary": "Payload Post Torneio",
+                                "value": {
+                                    "descricao_torneio": "CAMPEONATO PARANAENSE"
+                                }
+                                }
+                            }
+                            }
+                        }
+                        },
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{"application/json":{
+                            "schema":{
+                                "type": "object",
+                                "$ref":"#/components/schemas/Successful"
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Bad Request",
+                        "content":{"application/json":{
+                            "schema":{
+                                "type": "object",
+                                "$ref":"#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "404":{
+                        "description":"Not Found",
+                        "content":{"application/json":{
+                            "schema":{
+                                "type": "object",
+                                "$ref":"#/components/schemas/NotFound"
+                            }
+                        }
+                    }
+                    },
+                    "500":{
+                        "description":"Server Error",
+                        "content":{"application/json":{
+                            "schema":{
+                                "type": "object",
+                                "$ref":"#/components/schemas/ServerError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/partida":{
+            "post":{"summary":"Partida - Enpoint para cadastrar uma partida.","description":"Enpoint para cadastrar torneio.","operationId":"partida_v1_partida_post",
+                "requestBody":{
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/PayloadTorneio"
+                            },
+                            "examples": {
+                                "post_time": {
+                                "summary": "Payload Post Partida",
+                                "value": {
+                                    "descricao": "Amistoso",
+                                    "estadio": "Do Atletico",
+                                    "id_time": 1,
+                                    "id_time_rival": 2,
+                                    "id_torneio": 5
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{"application/json":{
+                            "schema":{
+                                "type": "object",
+                                "$ref":"#/components/schemas/Successful"
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Bad Request",
+                        "content":{"application/json":{
+                            "schema":{
+                                "type": "object",
+                                "$ref":"#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "404":{
+                        "description":"Not Found",
+                        "content":{"application/json":{
+                            "schema":{
+                                "type": "object",
+                                "$ref":"#/components/schemas/NotFound"
+                            }
+                        }
+                    }
+                    },
+                    "500":{
+                        "description":"Server Error",
+                        "content":{"application/json":{
+                            "schema":{
+                                "type": "object",
+                                "$ref":"#/components/schemas/ServerError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },      
+        "/v1/times/":{
+            "get":{"summary":"Times - Consulta times com ou sem filtro.","description":"Enpoint para listar times com ou sem filtro.","operationId":"get_times_v1_times__get",
+                "parameters":[
+                    { "$ref": "#/components/parameters/id_time"},
+                    {"$ref": "#/components/parameters/nome_time"}
+                    ],
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type": "object"
+
+                                }
+                            }
+                        }
+                    },
+                    "422":{
+                        "description":"Validation Error",
+                        "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref":"#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/jogadores/":{
+            "get":{"summary":"Jogadores - Consulta jogadores com ou sem filtro.","description":"Enpoint para listar jogadores com ou sem filtro.","operationId":"get_jogadores_v1_jogadores__get",
+                "parameters":[
+                    { "$ref": "#/components/parameters/id_jogador"},
+                    {"$ref": "#/components/parameters/nome_jogador"}
+                    ],
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type": "object"
+
+                                }
+                            }
+                        }
+                    },
+                    "422":{
+                        "description":"Validation Error",
+                        "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref":"#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/torneios/":{
+            "get":{"summary":"Torneios - Consulta torneios com ou sem filtro.","description":"Enpoint para listar os torneios com ou sem filtro.","operationId":"get_torneios_v1_torneios__get",
+                "parameters":[
+                    {"$ref": "#/components/parameters/nome_torneio"}
+                    ],
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type": "object"
+
+                                }
+                            }
+                        }
+                    },
+                    "422":{
+                        "description":"Validation Error",
+                        "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref":"#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/partidas/":{
+            "get":{"summary":"Partidas - Consulta partidas com ou sem filtro.","description":"Enpoint para listar as partidas com e sem filtro.","operationId":"get_partidas_v1_partidas__get",
+                "parameters":[
+                    { "$ref": "#/components/parameters/id_time_partida"}
+                    ],
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type": "object"
+
+                                }
+                            }
+                        }
+                    },
+                    "422":{
+                        "description":"Validation Error",
+                        "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref":"#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/transferencias/":{
+            "get":{"summary":"Transferencias - Consulta o histórico de transferencias","description":"Enpoint para listar o historico de transferencias com ou sem filtro.","operationId":"get_transferencias_v1_transferencias__get",
+                "parameters":[
+                    { "$ref": "#/components/parameters/id_jogador_transferencia"}
+                    ],
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type": "object"
+
+                                }
+                            }
+                        }
+                    },
+                    "422":{
+                        "description":"Validation Error",
+                        "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref":"#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/partida/inicio/":{
+            "post":{"summary":"Evento Inicio","description":"Enpoint que cria o evento de inicio da partida.","operationId":"evento_inicio_v1_partida_inicio__post",
+                "parameters":[{
+                        "required":false,
+                        "schema":{
+                            "title":"Id Partida",
+                            "type":"integer",
+                            "default":0
+                        },
+                        "name":"id_partida",
+                        "in":"query"
+                        }
+                    ],
+                    "responses":{
+                        "200":{
+                            "description":"Successful Response",
+                            "content":{"application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "$ref":"#/components/schemas/Successful"
+                                    }
+                                }
+                            }
+                        },
+                        "400":{
+                            "description":"Bad Request",
+                            "content":{"application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "$ref":"#/components/schemas/HTTPValidationError"
+                                    }
+                                }
+                            }
+                        },
+                        "404":{
+                            "description":"Not Found",
+                            "content":{"application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "$ref":"#/components/schemas/NotFound"
+                                }
+                            }
+                        }
+                        },
+                        "500":{
+                            "description":"Server Error",
+                            "content":{"application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "$ref":"#/components/schemas/ServerError"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+        "/v1/partida/fim/":{
+            "post":{"summary":"Evento Fim","description":"Enpoint que cria o evento de inicio da partida.","operationId":"evento_fim_v1_partida_fim__post",
+            "parameters":[{"required":false,"schema":{"title":"Id Partida","type":"integer","default":0},"name":"id_partida","in":"query"}],
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{"application/json":{
+                            "schema":{
+                                "type": "object",
+                                "$ref":"#/components/schemas/Successful"
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Bad Request",
+                        "content":{"application/json":{
+                            "schema":{
+                                "type": "object",
+                                "$ref":"#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "404":{
+                        "description":"Not Found",
+                        "content":{"application/json":{
+                            "schema":{
+                                "type": "object",
+                                "$ref":"#/components/schemas/NotFound"
+                            }
+                        }
+                    }
+                    },
+                    "500":{
+                        "description":"Server Error",
+                        "content":{"application/json":{
+                            "schema":{
+                                "type": "object",
+                                "$ref":"#/components/schemas/ServerError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/partida/prorrogacao/":{
+            "post":{"summary":"Evento Fim","description":"Enpoint que cria o evento de inicio da partida.","operationId":"evento_fim_v1_partida_prorrogacao__post",
+            "parameters":[{"required":false,"schema":{"title":"Id Partida","type":"integer","default":0},"name":"id_partida","in":"query"}],
+                "responses":{
+                    "200":{
+                        "description":"Successful Response",
+                        "content":{"application/json":{
+                            "schema":{
+                                "type": "object",
+                                "$ref":"#/components/schemas/Successful"
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Bad Request",
+                        "content":{"application/json":{
+                            "schema":{
+                                "type": "object",
+                                "$ref":"#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "404":{
+                        "description":"Not Found",
+                        "content":{"application/json":{
+                            "schema":{
+                                "type": "object",
+                                "$ref":"#/components/schemas/NotFound"
+                            }
+                        }
+                    }
+                    },
+                    "500":{
+                        "description":"Server Error",
+                        "content":{"application/json":{
+                            "schema":{
+                                "type": "object",
+                                "$ref":"#/components/schemas/ServerError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "components":{
+            "parameters": {
+                "id_time": {
+                "description": "O id pelo qual deseja realizar a consulta.",
+                "name": "id",
+                "in": "query",
+                "required": false,
+                "allowEmptyValue": true,
+                "schema": {
+                    "type": "integer"
+                },
+                "examples": {
+                    "id": {
+                    "value": 1
+                    }
+                }
+                },
+                "nome_time": {
+                "description": "O nome completo ou parcial pelo qual deseja realizar a consulta.",
+                "name": "nome",
+                "in": "query",
+                "required": false,
+                "allowEmptyValue": true,
+                "schema": {
+                    "type": "string"
+                },
+                "examples": {
+                    "nome": {
+                    "value": "cascavel"
+                    }
+                }
+                },
+                "id_jogador": {
+                "description": "O id pelo qual deseja realizar a consulta.",
+                "name": "id",
+                "in": "query",
+                "required": false,
+                "allowEmptyValue": true,
+                "schema": {
+                    "type": "integer"
+                },
+                "examples": {
+                    "id": {
+                    "value": 1
+                    }
+                }
+                },
+                "nome_torneio": {
+                "description": "O nome completo ou parcial pelo qual deseja realizar a consulta.",
+                "name": "nome",
+                "in": "query",
+                "required": false,
+                "allowEmptyValue": true,
+                "schema": {
+                    "type": "string"
+                },
+                "examples": {
+                    "nome": {
+                    "value": "PARANAENSE"
+                    }
+                }
+                },
+                "nome_jogador": {
+                "description": "O nome completo ou parcial pelo qual deseja realizar a consulta.",
+                "name": "nome",
+                "in": "query",
+                "required": false,
+                "allowEmptyValue": true,
+                "schema": {
+                    "type": "string"
+                },
+                "examples": {
+                    "nome": {
+                    "value": "Neymar"
+                    }
+                }
+                },
+                "id_time_partida": {
+                "description": "O id pelo qual deseja realizar a consulta.",
+                "name": "id_time",
+                "in": "query",
+                "required": false,
+                "allowEmptyValue": true,
+                "schema": {
+                    "type": "string"
+                },
+                "examples": {
+                    "id_time": {
+                    "value": "1"
+                    }
+                }
+                },
+                "id_jogador_transferencia": {
+                "description": "O id pelo qual deseja realizar a consulta.",
+                "name": "id_time",
+                "in": "query",
+                "required": false,
+                "allowEmptyValue": true,
+                "schema": {
+                    "type": "string"
+                },
+                "examples": {
+                    "id_jogador": {
+                    "value": "1"
+                    }
+                }
+                }
+            },
+            "schemas":{
+                "HTTPValidationError":{
+                    "title":"HTTPValidationError",
+                    "type":"object",
+                    "properties":{
+                        "detail":{
+                            "title":"Detail",
+                            "type":"array",
+                            "items":{
+                            "$ref":"#/components/schemas/ValidationError"
+                            }
+                        }
+                    }
+                },
+                "ValidationError":{
+                    "title":"ValidationError",
+                    "required":["loc","msg","type"],
+                    "type":"object",
+                    "properties":{
+                        "loc":{
+                            "title":"Location",
+                            "type":"array",
+                            "items":{
+                                "anyOf":[
+                                    {"type":"string"},
+                                    {"type":"integer"}
+                                ]
+                            }
+                        },
+                        "msg":{
+                        "title":"Message",
+                        "type":"string"
+                        },
+                        "type":{
+                        "title":"Error Type","type":"string"
+                        }
+                    }
+                },
+                "PayloadTime":{
+                    "type": "object",
+                    "required": [
+                        "nome_do_time",
+                        "classificacao",
+                        "localidade"
+                    ],
+                    "properties": {
+                        "nome_do_time": {
+                        "type": "string"
+                        },
+                        "classificacao": {
+                        "type": "string"
+                        },
+                        "localidade": {
+                        "type": "string"
+                        }
+
+                    }
+                },
+                "PayloadJogador":{
+                    "type": "object",
+                    "required": [
+                        "nome_jogador",
+                        "data_nascimento",
+                        "posicao",
+                        "id_time"
+                    ],
+                    "properties": {
+                        "nome_jogador": {
+                        "type": "string"
+                        },
+                        "data_nascimento": {
+                        "type": "string"
+                        },
+                        "posicao": {
+                        "type": "string"
+                        },
+                        "id_time": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "PayloadTransferencia":{
+                    "type": "object",
+                    "required": [
+                        "id_jogador",
+                        "id_time_origem",
+                        "id_time_destino",
+                        "vl_transferencia",
+                        "data"
+                    ],
+                    "properties": {
+                        "id_jogador": {
+                        "type": "integer"
+                        },
+                        "id_time_origem": {
+                        "type": "integer"
+                        },
+                        "id_time_destino": {
+                        "type": "integer"
+                        },
+                        "vl_transferencia": {
+                            "type": "string"
+                        },
+                        "data": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "PayloadTorneio":{
+                    "type": "object",
+                    "required": [
+                        "descricao_torneio"
+                    ],
+                    "properties": {
+                        "descricao_torneio": {
+                        "type": "string"
+                        }
+                    }
+                },
+                "Successful":{
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "integer"
+                        }
+                    }
+                    
+                },
+                "NotFound":{
+                    "type": "object",
+                    "properties": {
+                        "detail": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "ServerError":{
+                    "type": "object",
+                    "properties": {
+                        "detail": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

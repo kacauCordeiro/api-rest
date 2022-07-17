@@ -25,7 +25,8 @@ async def time(request: Request):
     with MySQLConnection() as database:
         await ValidacaoController(database).valida_payload_time(request)
         body = await request.json()
-        return TimeController(database).insert_time(body)
+        id = TimeController(database).insert_time(body)
+        return {"id": id}
 
 @api_router_v1.post("/jogador")
 async def jogador(request: Request):
@@ -33,7 +34,8 @@ async def jogador(request: Request):
     with MySQLConnection() as database:
         await ValidacaoController(database).valida_payload_jogador(request)
         body = await request.json()
-        return JogadorController(database).insert_jogador(body)
+        id = JogadorController(database).insert_jogador(body)
+        return {"id": id} 
     
 @api_router_v1.post("/transferencia")
 async def transferencia(request: Request):
@@ -41,7 +43,8 @@ async def transferencia(request: Request):
     with MySQLConnection() as database:
         await ValidacaoController(database).valida_payload_transferencia(request)
         body = await request.json()
-        return TransferenciaController(database).insert_transferencia(body)
+        id = TransferenciaController(database).insert_transferencia(body)
+        return {"id": id} 
     
 @api_router_v1.post("/torneio")
 async def torneio(request: Request):
@@ -49,7 +52,8 @@ async def torneio(request: Request):
     with MySQLConnection() as database:
         await ValidacaoController(database).valida_payload_torneio(request)
         body = await request.json()
-        return TorneioController(database).insert_torneio(body)
+        id = TorneioController(database).insert_torneio(body)
+        return {"id": id} 
     
 @api_router_v1.post("/partida")
 async def partida(request: Request):
@@ -57,36 +61,37 @@ async def partida(request: Request):
     with MySQLConnection() as database:
         await ValidacaoController(database).valida_payload_partida(request)
         body = await request.json()
-        return PartidasController(database).insert_partida(body)
+        id = PartidasController(database).insert_partida(body)
+        return {"id": id} 
 # -------------------------------------------------------------------------------------------------------------------------------   
 # GET
 @api_router_v1.get("/times/")
 async def get_times(id: int = 0, nome: str = None):
-    """Enpoint para listar todos os times com e sem filtro."""
+    """Enpoint para listar times com ou sem filtro."""
     with MySQLConnection() as database:
         return TimeController(database).lista_de_times(id=id, nome=nome)
     
 @api_router_v1.get("/jogadores/")
 async def get_jogadores(id: int = 0, nome: str = None):
-    """"Enpoint para listar todos os jogadores com e sem filtro."""
+    """"Enpoint para listar jogadores com ou sem filtro."""
     with MySQLConnection() as database:
         return JogadorController(database).lista_de_jogadores(id=id, nome=nome)
     
 @api_router_v1.get("/torneios/")
-async def get_torneios(name: str = None):
-    """"Enpoint para listar todos os torneios com e sem filtro."""
+async def get_torneios(nome: str = None):
+    """"Enpoint para listar torneios com ou sem filtro."""
     with MySQLConnection() as database:
-        return TorneioController(database).lista_de_torneios(name)
+        return TorneioController(database).lista_de_torneios(nome)
     
 @api_router_v1.get("/partidas/")
 async def get_partidas(id_time: int = 0):
-    """"Enpoint para listar todas as partidas com e sem filtro."""
+    """"Enpoint para listar partidas com ou sem filtro."""
     with MySQLConnection() as database:
         return PartidasController(database).lista_de_partidas(id_time)
     
 @api_router_v1.get("/transferencias/")
 async def get_transferencias(id_jogador: int = 0):
-    """Enpoint para listar o historico de transferencias com e sem filtro."""
+    """Enpoint para listar o historico de transferencias com ou sem filtro."""
     with MySQLConnection() as database:
         return TransferenciaController(database).historico_de_transferencias(id_jogador)
 
