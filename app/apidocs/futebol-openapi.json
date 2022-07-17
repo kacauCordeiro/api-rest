@@ -509,17 +509,9 @@
         },
         "/v1/partida/inicio/":{
             "post":{"summary":"Evento Inicio","description":"Enpoint que cria o evento de inicio da partida.","operationId":"evento_inicio_v1_partida_inicio__post",
-                "parameters":[{
-                        "required":false,
-                        "schema":{
-                            "title":"Id Partida",
-                            "type":"integer",
-                            "default":0
-                        },
-                        "name":"id_partida",
-                        "in":"query"
-                        }
-                    ],
+            "parameters":[
+                { "$ref": "#/components/parameters/id_partida"}
+                ],
                     "responses":{
                         "200":{
                             "description":"Successful Response",
@@ -566,7 +558,9 @@
             },
         "/v1/partida/fim/":{
             "post":{"summary":"Evento Fim","description":"Enpoint que cria o evento de inicio da partida.","operationId":"evento_fim_v1_partida_fim__post",
-            "parameters":[{"required":false,"schema":{"title":"Id Partida","type":"integer","default":0},"name":"id_partida","in":"query"}],
+            "parameters":[
+                { "$ref": "#/components/parameters/id_partida"}
+                ],                
                 "responses":{
                     "200":{
                         "description":"Successful Response",
@@ -613,7 +607,9 @@
         },
         "/v1/partida/prorrogacao/":{
             "post":{"summary":"Evento Fim","description":"Enpoint que cria o evento de inicio da partida.","operationId":"evento_fim_v1_partida_prorrogacao__post",
-            "parameters":[{"required":false,"schema":{"title":"Id Partida","type":"integer","default":0},"name":"id_partida","in":"query"}],
+            "parameters":[
+                { "$ref": "#/components/parameters/id_partida"}
+                ],                
                 "responses":{
                     "200":{
                         "description":"Successful Response",
@@ -692,79 +688,94 @@
             }
             },
             "id_jogador": {
-            "description": "O id pelo qual deseja realizar a consulta.",
-            "name": "id",
-            "in": "query",
-            "required": false,
-            "allowEmptyValue": true,
-            "schema": {
-                "type": "integer"
-            },
-            "examples": {
-                "id": {
-                "value": 1
+                "description": "O id pelo qual deseja realizar a consulta.",
+                "name": "id",
+                "in": "query",
+                "required": false,
+                "allowEmptyValue": true,
+                "schema": {
+                    "type": "integer"
+                },
+                "examples": {
+                    "id": {
+                    "value": 1
+                    }
                 }
-            }
+            },
+            "id_partida": {
+                "description": "O id da partida ao qual pertence o evento.",
+                "name": "id_partida",
+                "in": "query",
+                "required": false,
+                "allowEmptyValue": true,
+                "schema": {
+                    "type": "integer"
+                },
+                "examples": {
+                    "id": {
+                    "value": 1
+                    }
+                }
             },
             "nome_torneio": {
-            "description": "O nome completo ou parcial pelo qual deseja realizar a consulta.",
-            "name": "nome",
-            "in": "query",
-            "required": false,
-            "allowEmptyValue": true,
-            "schema": {
-                "type": "string"
-            },
-            "examples": {
-                "nome": {
-                "value": "PARANAENSE"
+                "description": "O nome completo ou parcial pelo qual deseja realizar a consulta.",
+                "name": "nome",
+                "in": "query",
+                "required": false,
+                "allowEmptyValue": true,
+                "schema": {
+                    "type": "string"
+                },
+                "examples": {
+                    "nome": {
+                    "value": "PARANAENSE"
+                    }
                 }
-            }
             },
             "nome_jogador": {
-            "description": "O nome completo ou parcial pelo qual deseja realizar a consulta.",
-            "name": "nome",
-            "in": "query",
-            "required": false,
-            "allowEmptyValue": true,
-            "schema": {
-                "type": "string"
-            },
-            "examples": {
-                "nome": {
-                "value": "Neymar"
+                "description": "O nome completo ou parcial pelo qual deseja realizar a consulta.",
+                "name": "nome",
+                "in": "query",
+                "required": false,
+                "allowEmptyValue": true,
+                "schema": {
+                    "type": "string"
+                },
+                "examples": {
+                    "nome": {
+                    "value": "Neymar"
+                    }
                 }
-            }
             },
             "id_time_partida": {
-            "description": "O id pelo qual deseja realizar a consulta.",
-            "name": "id_time",
-            "in": "query",
-            "required": false,
-            "allowEmptyValue": true,
-            "schema": {
-                "type": "string"
-            },
-            "examples": {
-                "id_time": {
-                "value": "1"
+                "description": "O id pelo qual deseja realizar a consulta.",
+                "name": "id_time",
+                "in": "query",
+                "required": false,
+                "allowEmptyValue": true,
+                "schema": {
+                    "type": "string"
+                },
+                "examples": {
+                    "id_time": {
+                    "value": "1"
+                    }
                 }
-            }
             },
             "id_jogador_transferencia": {
-            "description": "O id pelo qual deseja realizar a consulta.",
-            "name": "id_time",
-            "in": "query",
-            "required": false,
-            "allowEmptyValue": true,
-            "schema": {
-                "type": "string"
-            },
-            "examples": {
-                "id_jogador": {
-                "value": "1"
+                "description": "O id pelo qual deseja realizar a consulta.",
+                "name": "id_time",
+                "in": "query",
+                "required": false,
+                "allowEmptyValue": true,
+                "schema": {
+                    "type": "string"
+                },
+                "examples": {
+                    "id_jogador": {
+                    "value": "1"
+                    }
                 }
-            }
             }
         },
         "schemas":{
