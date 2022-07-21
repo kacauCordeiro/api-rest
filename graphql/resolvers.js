@@ -7,6 +7,12 @@ const resolvers = {
         times: async () => {
             const res = await fetch(`${baseURL}/times`)
             return await res.json()
+        },
+        time: async (parent, args) => {
+            const { id } = args;
+            const res = await fetch(`${baseURL}/times/?id=${id}`)
+            const response = await res.json();
+            return response;
         }
     }
 }
