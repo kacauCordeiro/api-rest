@@ -61,6 +61,13 @@ class ValidacaoController:
         "qt_gol_rival_ev",
     )
 
+    evento_gol_fields = (
+        "qt_gol_time_ev",
+        "qt_gol_rival_ev",
+        "id_jogador",
+    )
+
+
     async def valida_payload_time(self, request: Request):
         """Valida o payload.
 
@@ -251,7 +258,7 @@ class ValidacaoController:
             errors.update({"invalido": "O torneio informado não existe."})
             raise self.__has_errors(body, errors, insert_failed_request=False)
         
-    async def valida_payload_evento(self, request: Request, id_partida=0, tp_evento=None):
+    async def valida_payload_evento(self, request: Request = {}, id_partida=0, tp_evento=None):
         """Valida o payload.
 
         Args:
@@ -260,7 +267,7 @@ class ValidacaoController:
         body = await request.json()
         errors: Dict[str, str] = {}
         is_valid_body = True
-
+        required_fields = []
         credentials = body.get("credentials")
         
         if not id_partida:
@@ -279,43 +286,31 @@ class ValidacaoController:
             errors.update({"invalido": "O evento não foi informado."})
             raise self.__has_errors(body, errors, insert_failed_request=False)
         
-        if tp_evento == EnumEventos.INICIO:
-            return True
-        
         if tp_evento == EnumEventos.FIM:
             required_fields = ValidacaoController.evento_fim_fields
 
-        is_valid_body, fields = ValidacaoController.check_required_fields(
-            fields=required_fields,
-            payload=body,
-        )
+            is_valid_body, fields = ValidacaoController.check_required_fields(
+                fields=required_fields,
+                payload=body,
+            )
+        if tp_evento == EnumEventos.GOL:
+            required_fields = ValidacaoController.evento_gol_fields
+
+            is_valid_body, fields = ValidacaoController.check_required_fields(
+                fields=required_fields,
+                payload=body,
+            )
+            
+            jogador_model = JogadorModel(self.database)
+            jogador_model.id_jodador_jg = body.get("id_jogador")
+            jogador = jogador_model.consulta_jogadores(id=body.get("id_jogador"))
+
+            if not jogador:
+                errors.update({"invalido": "O id_jogador informado não existe."})
+                raise self.__has_errors(body, errors, insert_failed_request=False)
         
         if not is_valid_body:
             errors = {field: f"O campo {field} é vazio ou não foi enviado" for field in fields}
-            raise self.__has_errors(body, errors, insert_failed_request=False)
-        
-        time_model = TimeModel(self.database)
-        time_model.id_time_tm = body.get("id_time")
-        time = time_model.consulta_times(id=body.get("id_time"))
-
-        if not time:
-            errors.update({"invalido": "O id_time informado não existe."})
-            raise self.__has_errors(body, errors, insert_failed_request=False)
-        
-        rival_model = TimeModel(self.database)
-        rival_model.id_time_tm = body.get("id_time_rival")
-        rival = rival_model.consulta_times(id=body.get("id_time_rival"))
-        
-        if not rival or time==rival:
-            errors.update({"invalido": "O id_time_rival informado não existe ou é igual ao id_time"})
-            raise self.__has_errors(body, errors, insert_failed_request=False)
-        
-        torneio_model = TorneioModel(self.database)
-        torneio_model.id_torneio_to = body.get("id_torneio")
-        torneio = torneio_model.consulta_torneios(id=body.get("id_torneio"))
-        
-        if not torneio:
-            errors.update({"invalido": "O torneio informado não existe."})
             raise self.__has_errors(body, errors, insert_failed_request=False)
     
     @staticmethod

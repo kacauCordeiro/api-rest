@@ -2,7 +2,7 @@ import asyncio
 from typing import Union
 from fastapi import APIRouter, Query, Request, Depends, Cookie, HTTPException
 from pyparsing import Optional
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordBearer
 from app.controllers.time_controller import TimeController
 from app.controllers.jogador_controller import JogadorController
 from app.controllers.transferencia_controller import TransferenciaController
@@ -13,7 +13,10 @@ from app.models.eventos_model import EnumEventos
 from app.controllers.eventos_controller import EventosController
 from app.databases.mysql import MySQLConnection
 
+token_default = "Sorvete1234BatataFritaComM@ionese"
+
 api_router_v1 = APIRouter()
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 @api_router_v1.get("/healthcheck")
 async def healthcheck():
@@ -100,7 +103,7 @@ async def get_transferencias(id_jogador: int = 0):
 async def evento_inicio(request: Request, id_partida: int = 0):
     """Enpoint que cria o evento de inicio da partida."""
     with MySQLConnection() as database:
-        await ValidacaoController(database).valida_payload_partida(request=request, id_partida=id_partida, tp_evento=EnumEventos.INICIO.value)
+        await ValidacaoController(database).valida_payload_evento(request=request, id_partida=id_partida, tp_evento=EnumEventos.INICIO.value)
         body = await request.json()
         eventos = EventosController(database).evento_tempo(request=body, id_partida=id_partida, tp_evento=EnumEventos.INICIO.value)
         if eventos:
@@ -108,8 +111,9 @@ async def evento_inicio(request: Request, id_partida: int = 0):
 
 @api_router_v1.post("/partida/fim/")
 async def evento_fim(request: Request, id_partida: int = 0):
-    """Enpoint que cria o evento de inicio da partida."""
+    """Enpoint que cria o evento de fim da partida."""
     with MySQLConnection() as database:
+        await ValidacaoController(database).valida_payload_evento(request=request, id_partida=id_partida, tp_evento=EnumEventos.FIM.value)
         body = await request.json()
         eventos = EventosController(database).evento_tempo(request=body, id_partida=id_partida, tp_evento=EnumEventos.FIM.value)
         if eventos:
@@ -117,9 +121,25 @@ async def evento_fim(request: Request, id_partida: int = 0):
 
 @api_router_v1.post("/partida/prorrogacao/")
 async def evento_fim(request: Request, id_partida: int = 0):
-    """Enpoint que cria o evento de inicio da partida."""
+    """Enpoint que cria o evento de prorrogacao da partida."""
     with MySQLConnection() as database:
+        await ValidacaoController(database).valida_payload_evento(request=request, id_partida=id_partida, tp_evento=EnumEventos.PRORROGACAO.value)
         body = await request.json()
         eventos = EventosController(database).evento_tempo(request=body, id_partida=id_partida, tp_evento=EnumEventos.PRORROGACAO.value)
         if eventos:
             return eventos
+
+@api_router_v1.post("/partida/gol/")
+async def evento_fim(request: Request, id_partida: int = 0):
+    """Enpoint que cria o evento de gol da partida."""
+    with MySQLConnection() as database:
+        await ValidacaoController(database).valida_payload_evento(request=request, id_partida=id_partida, tp_evento=EnumEventos.GOL.value)
+        body = await request.json()
+        eventos = EventosController(database).evento_tempo(request=body, id_partida=id_partida, tp_evento=EnumEventos.GOL.value)
+        if eventos:
+            return eventos
+
+@api_router_v1.delete("/partida/")
+async def delete_partida(token: str = Depends(oauth2_scheme)):
+    if token == token_default:
+        return {"token": token}

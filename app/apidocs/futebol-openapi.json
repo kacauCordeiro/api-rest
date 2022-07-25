@@ -510,6 +510,31 @@
         },
         "/v1/partida/inicio/":{
             "post":{"summary":"Evento Inicio","description":"Enpoint que cria o evento de inicio da partida.","operationId":"evento_inicio_v1_partida_inicio__post",
+            "requestBody":{
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/components/schemas/PayloadTime"
+                        },
+                        "examples": {
+                            "post_time": {
+                                "summary": "Payload Post Time",
+                                "value": {
+                                    "detalhe_evento": "inicio_partida",
+                                    "id_jogador": "",
+                                    "metadados": {},
+                                    "data_hora": "",
+                                    "placar":"",
+                                    "qt_gol_time_ev": 1,
+                                    "qt_gol_rival_ev": 0
+                                }
+                            }
+                            }
+                        }
+                        }
+                    },
             "parameters":[
                 { "$ref": "#/components/parameters/id_partida"}
                 ],
@@ -556,104 +581,228 @@
                         }
                     }
                 }
-            },
+        },
         "/v1/partida/fim/":{
-            "post":{"summary":"Evento Fim","description":"Enpoint que cria o evento de inicio da partida.","operationId":"evento_fim_v1_partida_fim__post",
-            "parameters":[
-                { "$ref": "#/components/parameters/id_partida"}
-                ],                
-                "responses":{
-                    "200":{
-                        "description":"Successful Response",
-                        "content":{"application/json":{
-                            "schema":{
-                                "type": "object",
-                                "$ref":"#/components/schemas/Successful"
+            "post":{"summary":"Evento Fim","description":"Enpoint que cria o evento de fim da partida.","operationId":"evento_fim_v1_partida_fim_post",
+            "requestBody":{
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/components/schemas/PayloadTime"
+                        },
+                        "examples": {
+                            "post_time": {
+                                "summary": "Payload Post Time",
+                                "value": {
+                                    "detalhe_evento": "finalização",
+                                    "id_jogador": "",
+                                    "metadados": {},
+                                    "data_hora": "",
+                                    "placar":"",
+                                    "qt_gol_time_ev": 1,
+                                    "qt_gol_rival_ev": 0
                                 }
-                            }
-                        }
-                    },
-                    "400":{
-                        "description":"Bad Request",
-                        "content":{"application/json":{
-                            "schema":{
-                                "type": "object",
-                                "$ref":"#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    },
-                    "404":{
-                        "description":"Not Found",
-                        "content":{"application/json":{
-                            "schema":{
-                                "type": "object",
-                                "$ref":"#/components/schemas/NotFound"
                             }
                         }
                     }
-                    },
-                    "500":{
-                        "description":"Server Error",
-                        "content":{"application/json":{
-                            "schema":{
-                                "type": "object",
-                                "$ref":"#/components/schemas/ServerError"
+                    }
+                },
+            "parameters":[
+                { "$ref": "#/components/parameters/id_partida"}
+                ],
+                    "responses":{
+                        "200":{
+                            "description":"Successful Response",
+                            "content":{"application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "$ref":"#/components/schemas/Successful"
+                                    }
+                                }
+                            }
+                        },
+                        "400":{
+                            "description":"Bad Request",
+                            "content":{"application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "$ref":"#/components/schemas/HTTPValidationError"
+                                    }
+                                }
+                            }
+                        },
+                        "404":{
+                            "description":"Not Found",
+                            "content":{"application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "$ref":"#/components/schemas/NotFound"
+                                    }
+                                }
+                            }
+                        },
+                        "500":{
+                            "description":"Server Error",
+                            "content":{"application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "$ref":"#/components/schemas/ServerError"
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            }
         },
         "/v1/partida/prorrogacao/":{
-            "post":{"summary":"Evento Fim","description":"Enpoint que cria o evento de inicio da partida.","operationId":"evento_fim_v1_partida_prorrogacao__post",
+            "post":{"summary":"Evento Prorrogação","description":"Enpoint que cria o evento de prorrogação da partida.","operationId":"evento_prorrogacao_v1_partida_prorrogacao__post",
+            "requestBody":{
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/components/schemas/PayloadTime"
+                        },
+                        "examples": {
+                            "post_time": {
+                                "summary": "Payload Post Time",
+                                "value": {
+                                    "detalhe_evento": "prorrogacao",
+                                    "id_jogador": "",
+                                    "metadados": {"add_tempo_min": "8"},
+                                    "data_hora": "",
+                                    "placar":"",
+                                    "qt_gol_time_ev": 1,
+                                    "qt_gol_rival_ev": 0
+                                }
+                            }
+                            }
+                        }
+                        }
+                    },
             "parameters":[
                 { "$ref": "#/components/parameters/id_partida"}
-                ],                
-                "responses":{
-                    "200":{
-                        "description":"Successful Response",
-                        "content":{"application/json":{
-                            "schema":{
-                                "type": "object",
-                                "$ref":"#/components/schemas/Successful"
+                ],
+                    "responses":{
+                        "200":{
+                            "description":"Successful Response",
+                            "content":{"application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "$ref":"#/components/schemas/Successful"
+                                    }
+                                }
+                            }
+                        },
+                        "400":{
+                            "description":"Bad Request",
+                            "content":{"application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "$ref":"#/components/schemas/HTTPValidationError"
+                                    }
+                                }
+                            }
+                        },
+                        "404":{
+                            "description":"Not Found",
+                            "content":{"application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "$ref":"#/components/schemas/NotFound"
                                 }
                             }
                         }
-                    },
-                    "400":{
-                        "description":"Bad Request",
-                        "content":{"application/json":{
-                            "schema":{
-                                "type": "object",
-                                "$ref":"#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    },
-                    "404":{
-                        "description":"Not Found",
-                        "content":{"application/json":{
-                            "schema":{
-                                "type": "object",
-                                "$ref":"#/components/schemas/NotFound"
-                            }
-                        }
-                    }
-                    },
-                    "500":{
-                        "description":"Server Error",
-                        "content":{"application/json":{
-                            "schema":{
-                                "type": "object",
-                                "$ref":"#/components/schemas/ServerError"
+                        },
+                        "500":{
+                            "description":"Server Error",
+                            "content":{"application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "$ref":"#/components/schemas/ServerError"
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            }
+        },
+        "/v1/partida/gol/":{
+            "post":{"summary":"Evento Gol","description":"Enpoint que cria o evento de gol da partida.","operationId":"evento_gol_v1_partida_gol_post",
+            "requestBody":{
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/components/schemas/PayloadTime"
+                        },
+                        "examples": {
+                            "post_time": {
+                                "summary": "Payload Post Time",
+                                "value": {
+                                    "detalhe_evento": "GOL",
+                                    "id_jogador": "1",
+                                    "metadados": {"add_tempo_min": "8"},
+                                    "data_hora": "",
+                                    "placar":"",
+                                    "qt_gol_time_ev": 1,
+                                    "qt_gol_rival_ev": 0
+                                }
+                            }
+                            }
+                        }
+                        }
+                    },
+            "parameters":[
+                { "$ref": "#/components/parameters/id_partida"}
+                ],
+                    "responses":{
+                        "200":{
+                            "description":"Successful Response",
+                            "content":{"application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "$ref":"#/components/schemas/Successful"
+                                    }
+                                }
+                            }
+                        },
+                        "400":{
+                            "description":"Bad Request",
+                            "content":{"application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "$ref":"#/components/schemas/HTTPValidationError"
+                                    }
+                                }
+                            }
+                        },
+                        "404":{
+                            "description":"Not Found",
+                            "content":{"application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "$ref":"#/components/schemas/NotFound"
+                                }
+                            }
+                        }
+                        },
+                        "500":{
+                            "description":"Server Error",
+                            "content":{"application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "$ref":"#/components/schemas/ServerError"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
         }
     },
     "components":{
